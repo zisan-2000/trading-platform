@@ -176,8 +176,8 @@ const KYCForm = () => {
           </div>
         </div>
 
-        <div className="relative col-span-1 h-full">
-          <Image src="/placeholder.svg" alt="banner" fill objectFit="cover" />
+        <div className="relative col-span-1 h-full bg-[#4053ef]">
+          <Image src="/kyc-bg.jpg" alt="banner" fill objectFit="contain" />
         </div>
       </div>
     </div>
