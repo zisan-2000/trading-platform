@@ -14,12 +14,59 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  DragHandleHorizontalIcon,
+  MagnifyingGlassIcon,
+} from "@radix-ui/react-icons";
+import Sidebar from "./sidebar";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const session = useSession();
 
   return (
-    <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-slate-900">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-slate-950">
+      <div className="flex items-center gap-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="secondary" size="icon" className="shrink-0">
+              <DragHandleHorizontalIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="w-72 border-r-0 flex flex-col" side="left">
+            <SheetHeader>
+              <SheetTitle>
+                <div className="text-xl flex items-center gap-2">
+                  <Avatar>
+                    <AvatarImage src="https://cdn.pixabay.com/photo/2021/04/30/16/47/binance-logo-6219389_1280.png" />
+                  </Avatar>
+                  <div>
+                    <span className="font-bold text-orange-700">Boed</span>
+                    <span>Treading</span>
+                  </div>
+                </div>
+              </SheetTitle>
+            </SheetHeader>
+            <Sidebar />
+          </SheetContent>
+        </Sheet>
+        <div className="flex items-center gap-2 h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+          <MagnifyingGlassIcon className="size-5" />
+          <input
+            type="search"
+            placeholder="Search..."
+            className="focus:outline-none focus:border-0 w-full"
+          />
+        </div>
+      </div>
       <div className="flex items-center gap-4">
         <ThemeSwitcher />
         <DropdownMenu modal={false}>
@@ -46,7 +93,9 @@ const Header = () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push("/dashboard/profile")}
+              >
                 <UserRound className="opacity-60" aria-hidden="true" />
                 <span>Profile</span>
               </DropdownMenuItem>

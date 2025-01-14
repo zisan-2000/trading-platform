@@ -6,6 +6,7 @@ import { signUpSchema } from "@/validators/authValidators";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaLinkedin } from "react-icons/fa";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -25,10 +26,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { signUp } from "@/lib/authActions";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignupForm = () => {
+  const router = useRouter();
+
   const form = useForm<yup.InferType<typeof signUpSchema>>({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -39,7 +43,15 @@ const SignupForm = () => {
   });
 
   const onSubmit = async (values: yup.InferType<typeof signUpSchema>) => {
-    await signUp(values);
+    const result = await signUp(values);
+    if (result.error) {
+      return toast.error(result.error);
+    }
+
+    if (result.message) {
+      toast.success(result.message);
+      router.push("/auth/sign-in");
+    }
   };
 
   return (
