@@ -41,7 +41,7 @@ const WithdrawalForm = () => {
           alt=""
         />
         <div>
-          <p className="text-xl font-bold">Yes Bank</p>
+          <p className="text-xl font-bold">HSBC Holdings</p>
           <p className="text-xs">********1651</p>
         </div>
       </div>

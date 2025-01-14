@@ -24,7 +24,7 @@ const PaymentDetails = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Yes Bank</CardTitle>
+          <CardTitle>HSBC Holdings</CardTitle>
           <CardDescription>************16411</CardDescription>
         </CardHeader>
         <CardContent>
@@ -32,10 +32,10 @@ const PaymentDetails = () => {
             <p className="w-32">A/C Holder </p>
             <p className="text-gray-400">: Birds of eden</p>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <p className="w-32">IFSC </p>
             <p className="text-gray-400"> : YES00008</p>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
       <Dialog>

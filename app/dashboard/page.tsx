@@ -54,25 +54,26 @@ const OverviewPage = () => {
 
             <div className="flex gap-5 items-center">
               <div>
-                <Avatar>
+                {/* <Avatar>
                   <AvatarImage
                     src={
                       "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1669641048"
                     }
                   />
-                </Avatar>
+                </Avatar> */}
+                <p>1JANATAMF</p>
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <p>BTC</p>
+                  <p>1JAN</p>
                   <DotIcon className="text-gray-400" />
-                  <p className="text-gray-400">Bitcoin</p>
+                  <p className="text-gray-400">1JANATAMF</p>
                 </div>
                 <div className="flex items-end gap-2">
-                  <p className="text-xl font-bold">$69249</p>
+                  <p className="text-xl font-bold">2159</p>
                   <p className="text-red-600">
-                    <span>1364881428323</span>
-                    <span>(- 0.20009%)</span>
+                    <span>59146	</span>
+                    <span>(0%)</span>
                   </p>
                 </div>
               </div>
