@@ -18,7 +18,7 @@ export default auth((req) => {
 
   // Handle other cases: if not authenticated and trying to access "/dashboard", redirect to "/"
   if (!req.auth && req.nextUrl.pathname.startsWith("/dashboard")) {
-    const newUrl = new URL("/", req.nextUrl.origin);
+    const newUrl = new URL("/auth/sign-in", req.nextUrl.origin);
     return Response.redirect(newUrl);
   }
 });

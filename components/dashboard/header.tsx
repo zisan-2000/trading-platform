@@ -31,16 +31,19 @@ import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();
   const session = useSession();
+  const hasKyc = session.data?.user?.email === "user@gmail.com" ? true : false;
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-slate-950">
       <div className="flex items-center gap-4">
         <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="secondary" size="icon" className="shrink-0">
-              <DragHandleHorizontalIcon />
-            </Button>
-          </SheetTrigger>
+          {hasKyc && (
+            <SheetTrigger asChild>
+              <Button variant="secondary" size="icon" className="shrink-0">
+                <DragHandleHorizontalIcon />
+              </Button>
+            </SheetTrigger>
+          )}
           <SheetContent className="w-72 border-r-0 flex flex-col" side="left">
             <SheetHeader>
               <SheetTitle>

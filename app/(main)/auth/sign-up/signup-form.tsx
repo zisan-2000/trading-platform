@@ -27,12 +27,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUp } from "@/lib/authActions";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 
 const SignupForm = () => {
-  const router = useRouter();
-
   const form = useForm<yup.InferType<typeof signUpSchema>>({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -50,7 +48,11 @@ const SignupForm = () => {
 
     if (result.message) {
       toast.success(result.message);
-      router.push("/auth/sign-in");
+      signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirectTo: "/dashboard/kyc",
+      });
     }
   };
 

@@ -104,7 +104,7 @@ const KYCForm = () => {
   return (
     <div className="bg-slate-50 grow rounded-xl ring-2 ring-offset-2 ring-slate-100 overflow-hidden">
       <div className="grid grid-cols-3 h-full">
-        <div className="col-span-2 p-8 flex flex-col h-[calc(100vh-64px)]">
+        <div className="col-span-2 p-8 flex flex-col h-[calc(100vh-112px)]">
           {/* Timeline */}
           <div className="max-w-4xl w-full flex items-center justify-between mt-6 mb-10 mx-auto">
             {steps.map((step, index) => {
