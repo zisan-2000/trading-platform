@@ -13,11 +13,13 @@ import {
 
 import { Button } from "@/components/ui/button";
 import AccountVerificationForm from "./AccountVerificationForm";
+import { useSession } from "next-auth/react";
 
 const Profile = () => {
   const handleEnableTwoStepVerification = () => {
     console.log("Two Step Verification");
   };
+   const session = useSession();
   return (
     <div className="flex flex-col items-center mb-5">
       <div className="pt-10 w-full lg:w-[60%]">
@@ -30,11 +32,11 @@ const Profile = () => {
               <div className="space-y-7">
                 <div className="flex">
                   <p className="w-[9rem]">Email: </p>
-                  <p className="text-gray-500">boed@gmail.com</p>
+                  <p className="text-gray-500">{session.data?.user?.email}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Full Name: </p>
-                  <p className="text-gray-500">Faysal Mohammed Shah</p>
+                  <p className="text-gray-500">{session.data?.user?.name}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Date of Birth: </p>
