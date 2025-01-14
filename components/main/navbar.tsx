@@ -4,10 +4,10 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
 const Navbar = () => {
   return (
-    <nav className="border-b border-border py-3 dark:bg-slate-900">
+    <nav className="border-b border-border py-3 dark:bg-[#0C0A09] bg-white">
       <div className="container flex items-center justify-between gap-4">
         <Link href="/" className="text-2xl font-bold">
-          Logo
+          Birds Of Eden
         </Link>
         <div className="flex items-center gap-4">
           <ThemeSwitcher />

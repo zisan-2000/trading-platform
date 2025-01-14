@@ -42,7 +42,7 @@ const PaymentDetailsForm = () => {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="ifsc"
             render={({ field }) => (
@@ -54,7 +54,7 @@ const PaymentDetailsForm = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="accountNumber"

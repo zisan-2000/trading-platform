@@ -34,7 +34,7 @@ const Header = () => {
   const hasKyc = session.data?.user?.email === "user@gmail.com" ? true : false;
 
   return (
-    <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-slate-950">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-[#0C0A09]">
       <div className="flex items-center gap-4">
         <Sheet>
           {hasKyc && (
@@ -52,8 +52,8 @@ const Header = () => {
                     <AvatarImage src="https://cdn.pixabay.com/photo/2021/04/30/16/47/binance-logo-6219389_1280.png" />
                   </Avatar>
                   <div>
-                    <span className="font-bold text-orange-700">Boed</span>
-                    <span>Treading</span>
+                    <span className="font-bold text-orange-500">Boed</span>
+                    <span>Trading</span>
                   </div>
                 </div>
               </SheetTitle>
@@ -66,7 +66,7 @@ const Header = () => {
           <input
             type="search"
             placeholder="Search..."
-            className="focus:outline-none focus:border-0 w-full"
+            className="focus:outline-none focus:border-0 w-full dark:bg-[#0C0A09]"
           />
         </div>
       </div>
