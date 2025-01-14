@@ -9,7 +9,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           width={200}
           height={100}
           alt="logo"
-          className="mx-auto w-44 rounded-full ring-2"
+          className="mx-auto w-44 rounded-full ring-2 "
           priority
         />
         {children}
