@@ -6,7 +6,6 @@ import { signUpSchema } from "@/validators/authValidators";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaLinkedin } from "react-icons/fa";
-import { toast } from "sonner";
 
 import {
   Card,
@@ -26,11 +25,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signUp } from "@/lib/authActions";
-import { signIn } from "next-auth/react";
+import { FormError } from "@/components/ui/form-error";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signUp } from "@/lib/auth-client";
 import Link from "next/link";
 
 const SignupForm = () => {
+  const [formError, setFormError] = useState<string>("");
+  const router = useRouter();
+
   const form = useForm<yup.InferType<typeof signUpSchema>>({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -41,19 +45,24 @@ const SignupForm = () => {
   });
 
   const onSubmit = async (values: yup.InferType<typeof signUpSchema>) => {
-    const result = await signUp(values);
-    if (result.error) {
-      return toast.error(result.error);
-    }
-
-    if (result.message) {
-      toast.success(result.message);
-      signIn("credentials", {
+    await signUp.email(
+      {
+        name: values.name,
         email: values.email,
         password: values.password,
-        redirectTo: "/dashboard/kyc",
-      });
-    }
+      },
+      {
+        onRequest: () => {
+          setFormError("");
+        },
+        onSuccess: () => {
+          router.replace("/dashboard/kyc");
+        },
+        onError: (ctx) => {
+          setFormError(ctx.error.message);
+        },
+      }
+    );
   };
 
   return (
@@ -118,6 +127,7 @@ const SignupForm = () => {
                 )}
               />
             </FormFieldset>
+            <FormError message={formError} />
             <Button
               type="submit"
               className="mt-4 w-full"

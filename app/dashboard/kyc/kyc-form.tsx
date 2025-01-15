@@ -3,8 +3,14 @@
 import { KYC, StepProps } from "@/lib/dataTypes";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, LoaderCircleIcon } from "lucide-react";
-import { useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle,
+  LoaderCircleIcon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 
@@ -29,6 +35,10 @@ import {
 import { CountryDropdown } from "@/components/ui/country-dropdown";
 import ImageSelector from "@/components/ui/image-selector";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "@/lib/auth-client";
+import { updateKyc } from "@/actions/userAction";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const KYCForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -96,7 +106,12 @@ const KYCForm = () => {
     {
       title: "Finish",
       component: (
-        <StepFinish next={handleNextStep} prev={handlePrevStep} data={data} />
+        <StepFinish
+          next={handleNextStep}
+          currentStep={currentStep}
+          prev={handlePrevStep}
+          data={data}
+        />
       ),
     },
   ];
@@ -176,8 +191,8 @@ const KYCForm = () => {
           </div>
         </div>
 
-        <div className="relative col-span-1 h-full bg-[#4053ef]">
-          <Image src="/kyc-bg.jpg" alt="banner" fill objectFit="contain" />
+        <div className="relative col-span-1 h-full">
+          <Image src="/placeholder.svg" alt="banner" fill objectFit="cover" />
         </div>
       </div>
     </div>
@@ -595,7 +610,35 @@ const StepTow = ({ data, next, prev }: StepProps<KYC>) => {
 };
 
 // Step Finish
-const StepFinish = ({ prev }: StepProps) => {
+const StepFinish = ({
+  prev,
+  currentStep,
+}: StepProps & { currentStep: number }) => {
+  const router = useRouter();
+  const [kycVerified, setKycVerified] = useState(false);
+  const { data } = useSession();
+
+  // Run the effect only when we're on the final step
+  useEffect(() => {
+    if (currentStep !== 2) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        const { message } = await updateKyc(data?.user.id as string);
+        if (message) {
+          toast.success(message);
+          setKycVerified(true);
+          router.replace("/dashboard");
+        }
+      } catch {
+        console.log("error verifying kyc");
+      }
+    }, 5000); // 5 seconds delay
+
+    // Cleanup the timer when the component unmounts or currentStep changes
+    return () => clearTimeout(timer);
+  }, [currentStep, data, router]);
+
   return (
     <div>
       <div className="text-center mb-10">
@@ -605,14 +648,36 @@ const StepFinish = ({ prev }: StepProps) => {
         </p>
       </div>
 
-      <div className="bg-primary/10 text-center max-w-2xl mx-auto rounded-lg px-4 py-10 ring-2 ring-offset-4 ring-primary/30">
-        <h3 className="text-2xl text-primary w-fit mb-1 flex items-center gap-2 mx-auto">
-          <LoaderCircleIcon className="animate-spin" />
-          <span>Pending Review</span>
+      <div
+        className={cn(
+          "text-center max-w-2xl mx-auto rounded-lg px-4 py-10 ring-2 ring-offset-4 ",
+          {
+            "bg-primary/10 ring-primary/30": !kycVerified,
+            "bg-emerald-50 ring-emerald-400": kycVerified,
+          }
+        )}
+      >
+        <h3
+          className={cn("text-2xl w-fit mb-1 flex items-center gap-2 mx-auto", {
+            "text-primary": !kycVerified,
+            "text-emerald-600": kycVerified,
+          })}
+        >
+          {kycVerified ? (
+            <CheckCircle />
+          ) : (
+            <LoaderCircleIcon className="animate-spin" />
+          )}
+          <span>{kycVerified ? "Verified" : "Pending Review"}</span>
         </h3>
-        <p className="text-lg text-slate-700">
-          Your application is pending review by our team
-        </p>
+
+        {kycVerified ? (
+          <p className="text-lg text-slate-800">Your KYC is now verified</p>
+        ) : (
+          <p className="text-lg text-slate-700">
+            Your application is pending review by our system
+          </p>
+        )}
       </div>
 
       <div className="max-w-2xl mx-auto mt-8 flex justify-between gap-4 items-center">

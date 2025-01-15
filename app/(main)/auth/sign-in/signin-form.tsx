@@ -25,10 +25,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn } from "@/lib/auth-client";
+import { FormError } from "@/components/ui/form-error";
+import { useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SigninForm = () => {
+  const [formError, setFormError] = useState<string>("");
+  const router = useRouter();
+
   const form = useForm<yup.InferType<typeof signInSchema>>({
     resolver: yupResolver(signInSchema),
     defaultValues: {
@@ -38,10 +45,24 @@ const SigninForm = () => {
   });
 
   const onSubmit = async (values: yup.InferType<typeof signInSchema>) => {
-    signIn("credentials", {
-      ...values,
-      redirectTo: "/dashboard",
-    });
+    await signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onRequest: () => {
+          setFormError("");
+        },
+        onSuccess: () => {
+          toast.success("Login successful");
+          router.push("/dashboard");
+        },
+        onError: (ctx) => {
+          setFormError(ctx.error.message);
+        },
+      }
+    );
   };
 
   return (
@@ -89,6 +110,7 @@ const SigninForm = () => {
                 )}
               />
             </FormFieldset>
+            <FormError message={formError} />
             <Button
               type="submit"
               className="mt-4 w-full"

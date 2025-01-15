@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 import {
   Sheet,
   SheetContent,
@@ -27,17 +27,16 @@ import {
 } from "@radix-ui/react-icons";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/navigation";
+import { Session } from "better-auth";
 
-const Header = () => {
+const Header = ({ session }: { session: Session }) => {
   const router = useRouter();
-  const session = useSession();
-  const hasKyc = session.data?.user?.email === "user@gmail.com" ? true : false;
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 dark:bg-[#0C0A09]">
       <div className="flex items-center gap-4">
         <Sheet>
-          {hasKyc && (
+          {session?.user?.kycVerified === "VERIFIED" && (
             <SheetTrigger asChild>
               <Button variant="secondary" size="icon" className="shrink-0">
                 <DragHandleHorizontalIcon />
@@ -88,10 +87,10 @@ const Header = () => {
           <DropdownMenuContent align="end" className="max-w-64">
             <DropdownMenuLabel className="flex min-w-0 flex-col">
               <span className="truncate text-sm font-medium text-foreground">
-                {session.data?.user?.name}
+                {session?.user?.name}
               </span>
               <span className="truncate text-sm font-medium text-muted-foreground">
-                {session.data?.user?.email}
+                {session?.user?.email}
               </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -102,7 +101,17 @@ const Header = () => {
                 <UserRound className="opacity-60" aria-hidden="true" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => signOut()}>
+              <DropdownMenuItem
+                onClick={async () => {
+                  await signOut({
+                    fetchOptions: {
+                      onSuccess: () => {
+                        router.replace("/auth/sign-in");
+                      },
+                    },
+                  });
+                }}
+              >
                 <LogOut className="opacity-60" aria-hidden="true" />
                 <span>Logout</span>
               </DropdownMenuItem>
