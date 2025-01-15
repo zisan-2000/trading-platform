@@ -32,7 +32,15 @@ const AccountVerificationForm = () => {
           <p>{session.data?.user?.email}</p>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Sent OTP</Button>
+              <Button 
+              onClick={async () => {
+                await fetch('/api/emails' ,{method: "POST",
+                  body:JSON.stringify({
+                    email:"faysalmohammed.shah@gmail.com",
+                    name:"User ",
+                  })
+                });
+              }}>Sent OTP</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -57,7 +65,9 @@ const AccountVerificationForm = () => {
                   </InputOTPGroup>
                 </InputOTP>
                 <DialogClose asChild>
-                  <Button onClick={handleSubmit} className={"w-[10rem]"}>
+                  <Button 
+                  onClick={handleSubmit}
+                  className={"w-[10rem]"}>
                     Submit
                   </Button>
                 </DialogClose>
