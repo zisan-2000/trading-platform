@@ -11,7 +11,7 @@ import {
 const PortfolioPage = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold pb-5">Portfolio</h1>
+      <h1 className="text-3xl font-bold pb-5">My Portfolio</h1>
       <Table>
       <TableHeader>
         <TableRow>

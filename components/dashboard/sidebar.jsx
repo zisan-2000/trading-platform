@@ -20,7 +20,7 @@ const menu = [
     icon: <HomeIcon className="size-5" />,
   },
   {
-    name: "Portfolio",
+    name: "My Portfolio",
     path: "/dashboard/portfolio",
     icon: <DashboardIcon className="size-5" />,
   },
@@ -35,7 +35,7 @@ const menu = [
     icon: <ActivityLogIcon className="size-5" />,
   },
   {
-    name: "Wallet",
+    name: "My Wallet",
     path: "/dashboard/wallet",
     icon: <WalletIcon className="size-5" />,
   },

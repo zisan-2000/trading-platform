@@ -69,6 +69,9 @@ const Header = ({ session }: { session: Session }) => {
           />
         </div>
       </div>
+      <div className="font-bold text-xl ">
+        DHAKA STOCK EXCHANGE LTD.
+      </div>
       <div className="flex items-center gap-4">
         <ThemeSwitcher />
         <DropdownMenu modal={false}>
