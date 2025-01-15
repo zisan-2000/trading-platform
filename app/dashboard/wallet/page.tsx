@@ -20,8 +20,47 @@ import TopUpForm from "./TopUpForm";
 import WithdrawalForm from "./WithdrawalForm";
 import TransferForm from "./TransferForm";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const Wallet = () => {
+    const [walletBalance, setWalletBalance] = useState(0); // State for wallet balance
+  
+    const handleTopUp = (amount: string) => {
+      const newBalance = walletBalance + parseFloat(amount);  // Update wallet balance
+      setWalletBalance(newBalance);
+    };
+    const handleWithdrawal = (amount: string) => {
+      // Parse the amount as a float
+      const withdrawalAmount = parseFloat(amount);
+    
+      // Check if the amount is a valid number
+      if (isNaN(withdrawalAmount) || withdrawalAmount <= 0) {
+        alert("Please enter a valid amount greater than zero.");
+        return; // Exit the function if the amount is invalid
+      }
+    
+      // Calculate the new balance after withdrawal
+      const newBalance = walletBalance - withdrawalAmount;
+    
+      // Check if the new balance is sufficient
+      if (newBalance < 0) {
+        alert("Insufficient balance");
+      } else {
+        // Update the wallet balance if sufficient funds are available
+        setWalletBalance(newBalance);
+      }
+    };
+
+    const handleTransfer = (amount : string) => {
+      const newBalance = walletBalance - parseFloat(amount);
+      if (newBalance < 0) {
+        alert("Insufficient balance for transfer");
+      } else {
+        setWalletBalance(newBalance);
+        alert("Transfer successful!");
+      }
+    };
+  
   return (
     <div className="flex flex-col items-center">
       <div className="pt-10 w-full lg:w-[60%]">
@@ -50,7 +89,7 @@ const Wallet = () => {
           <CardContent>
             <div className="flex items-center">
               <DollarSign />
-              <span className="text-2xl font-semibold">4400.56</span>
+              <span className="text-2xl font-semibold">{walletBalance.toFixed(2)}</span>
             </div>
             {/*Wallet Header End*/}
             {/*Wallet -> Add Money ,Withdrawal ,Transfer Fomrs Start*/}
@@ -69,7 +108,9 @@ const Wallet = () => {
                   <DialogHeader>
                     <DialogTitle>Top Up Your Wallet</DialogTitle>
                   </DialogHeader>
-                  <TopUpForm />
+                  
+                  <TopUpForm onTopUp={handleTopUp}/>
+                  
                 </DialogContent>
               </Dialog>
 
@@ -87,7 +128,7 @@ const Wallet = () => {
                   <DialogHeader>
                     <DialogTitle>Request Withdrawal</DialogTitle>
                   </DialogHeader>
-                  <WithdrawalForm />
+                  <WithdrawalForm availableBalance={walletBalance} onWithdrawal={handleWithdrawal}/>
                 </DialogContent>
               </Dialog>
 
@@ -107,7 +148,7 @@ const Wallet = () => {
                       Transfer To Other Wallet
                     </DialogTitle>
                   </DialogHeader>
-                  <TransferForm />
+                  <TransferForm onTransfer={handleTransfer}/>
                 </DialogContent>
               </Dialog>
             </div>
@@ -122,29 +163,106 @@ const Wallet = () => {
           </div>
 
           <div className="space-y-5">
-            {[1, 1, 1, 1, 1, 1, 1, 1].map((item, i) => (
-              <Card
-                key={i}
-                className="flex justify-between items-center py-2 px-4"
-              >
-                {/* Content goes here */}
-                <div className="flex items-center gap-5">
-                  <Avatar>
-                    <AvatarFallback>
-                      <ShuffleIcon className="" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="space-y-1">
-                    <h1>Buy Asset</h1>
-                    <p className="text-sm text-gray-500">2025-01-14</p>
-                  </div>
-                </div>
-                <div>
-                  <p className="text-primary">500 USD</p>
-                </div>
-              </Card>
-            ))}
+  {[
+    {
+      id: 1,
+      title: "Buy Asset",
+      date: "2025-01-14",
+      amount: "500 USD",
+      type: "buy",
+    },
+    {
+      id: 2,
+      title: "Sell Asset",
+      date: "2025-01-12",
+      amount: " - 200 USD",
+      type: "sell",
+    },
+    {
+      id: 3,
+      title: "Buy Asset",
+      date: "2025-01-10",
+      amount: "800 USD",
+      type: "buy",
+    },
+    {
+      id: 4,
+      title: "Transfer Funds",
+      date: "2025-01-08",
+      amount: " - 1,200 USD",
+      type: "transfer",
+    },
+    {
+      id: 5,
+      title: "Transfer Funds",
+      date: "2025-01-05",
+      amount: " - 300 USD",
+      type: "transfer",
+    },
+    {
+      id: 6,
+      title: "Buy Asset",
+      date: "2025-01-03",
+      amount: "450 USD",
+      type: "buy",
+    },
+    {
+      id: 7,
+      title: "Sell Asset",
+      date: "2025-01-01",
+      amount: " - 350 USD",
+      type: "sell",
+    },
+    {
+      id: 8,
+      title: "Buy Asset",
+      date: "2024-12-30",
+      amount: "900 USD",
+      type: "buy",
+    },
+  ].map((item, i) => (
+    <Card
+      key={i}
+      className={`flex justify-between items-center py-2 px-4 ${
+        item.type === "buy"
+          ? " text-green-600"
+          : item.type === "sell"
+          ? " text-red-600"
+          : item.type === "transfer"
+          ? " text-blue-600"
+          : ""
+          
+      }`}
+    >
+      {/* Content goes here */}
+      <div className="flex items-center gap-5">
+        <Avatar>
+          <AvatarFallback>
+            <ShuffleIcon />
+          </AvatarFallback>
+        </Avatar>
+        <div className="space-y-1">
+          <h1>{item.title}</h1>
+          <p className="text-sm text-gray-500">{item.date}</p>
+        </div>
+      </div>
+      <div>
+      <p
+          className={`${
+            item.type === "buy"
+              ? "text-green-600"
+              : item.type === "sell"
+              ? "text-red-600"
+              : item.type === "transfer"
+              ? "text-blue-600"
+              : ""
+          } font-semibold text-md`}
+        >{item.amount}</p>
+      </div>
+    </Card>
+  ))}
           </div>
+
         </div>
         {/*Wallet -> History End*/}
       </div>

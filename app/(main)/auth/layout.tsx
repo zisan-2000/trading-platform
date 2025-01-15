@@ -5,11 +5,11 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="grid grow place-items-center px-4 py-8">
       <main className="flex w-full max-w-sm flex-col gap-8">
         <Image
-          src="/boed.jpg"
+          src="/boed1.png"
           width={200}
           height={100}
           alt="logo"
-          className="mx-auto w-44 rounded-full ring-2 "
+          className="mx-auto w-44  "
           priority
         />
         {children}

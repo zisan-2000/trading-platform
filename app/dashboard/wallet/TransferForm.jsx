@@ -3,7 +3,7 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-const TransferForm = () => {
+const TransferForm = ({onTransfer}) => {
   const [formData, setFormData] = React.useState({
     amount: "",
     walletId: "",
@@ -13,7 +13,9 @@ const TransferForm = () => {
     setFormData({ ...formData, [e.target.name]: [e.target.value] });
   };
   const handleSubmit = () => {
-    console.log(formData);
+    if (formData.amount) {
+      onTransfer(formData.amount); // Pass the amount to the parent component
+    }
   };
 
   return (

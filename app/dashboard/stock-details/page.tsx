@@ -1,4 +1,4 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+//import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   BookmarkFilledIcon,
@@ -54,7 +54,7 @@ const StockDetails = () => {
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="lg">Tread</Button>
+              <Button size="lg">Trade</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

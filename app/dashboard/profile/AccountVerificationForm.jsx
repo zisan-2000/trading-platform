@@ -16,9 +16,11 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 const AccountVerificationForm = () => {
   const [value, setValue] = useState("");
+  const session = useSession();
   const handleSubmit = () => {
     console.log(value);
   };
@@ -27,7 +29,7 @@ const AccountVerificationForm = () => {
       <div className="space-y-5 mt-10 w-full">
         <div className="flex justify-between items-center">
           <p>Email :</p>
-          <p>boed@gmail.com</p>
+          <p>{session.data?.user?.email}</p>
           <Dialog>
             <DialogTrigger asChild>
               <Button>Sent OTP</Button>

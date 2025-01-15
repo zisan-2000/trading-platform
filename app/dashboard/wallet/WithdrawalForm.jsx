@@ -3,20 +3,23 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
-const WithdrawalForm = () => {
+const WithdrawalForm = ({availableBalance,onWithdrawal}) => {
   const [amount, setAmount] = React.useState("");
   const handleChange = (e) => {
     setAmount(e.target.value);
   };
+ 
   const handleSubmit = () => {
-    console.log(amount);
+    if (amount) {
+      onWithdrawal(amount); // Pass the amount (as a string) to the parent component
+    }
   };
 
   return (
     <div className="pt-10 space-y-5">
       <div className="flex justify-between items-center rounded-md bg-orange-600 text-xl font-bold px-5 py-4">
         <p className="text-white">Available balance</p>
-        <p className="text-white">$9000</p>
+        <p className="text-white">${availableBalance.toFixed(2)}</p>
       </div>
 
       <div className="flex flex-col items-center">
