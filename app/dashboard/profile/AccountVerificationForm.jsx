@@ -21,9 +21,9 @@ import { useSession } from "next-auth/react";
 const AccountVerificationForm = () => {
   const [value, setValue] = useState("");
   const session = useSession();
-  // const handleSubmit = () => {
-  //   console.log(value);
-  // };
+  const handleSubmit = () => {
+    console.log(value);
+  };
   return (
     <div className="flex justify-center">
       <div className="space-y-5 mt-10 w-full">
@@ -65,7 +65,9 @@ const AccountVerificationForm = () => {
                   </InputOTPGroup>
                 </InputOTP>
                 <DialogClose asChild>
-                  <Button className={"w-[10rem]"}>
+                  <Button 
+                  onClick={handleSubmit}
+                  className={"w-[10rem]"}>
                     Submit
                   </Button>
                 </DialogClose>
