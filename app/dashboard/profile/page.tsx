@@ -16,7 +16,7 @@ import AccountVerificationForm from "./AccountVerificationForm";
 import { useSession } from "@/lib/auth-client";
 import { useState } from "react";
 
-import { KYC, StepProps } from "@/lib/dataTypes";
+import { KYC } from "@/lib/dataTypes";
 import { useForm } from "react-hook-form";
 
 import {
